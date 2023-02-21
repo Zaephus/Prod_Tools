@@ -1,0 +1,16 @@
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.csproj.AssemblyReference.cache
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.csproj.SuggestedBindingRedirects.cache
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\MainWindow.g.cs
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\App.g.cs
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools_MarkupCompile.cache
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools_MarkupCompile.lref
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\bin\Debug\Prod Tools.exe.config
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\bin\Debug\Prod Tools.exe
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\bin\Debug\Prod Tools.pdb
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\MainWindow.baml
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.g.resources
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod_Tools.Properties.Resources.resources
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.csproj.GenerateResource.cache
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.csproj.CoreCompileInputs.cache
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.exe
+C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Prod Tools\Prod Tools\obj\Debug\Prod Tools.pdb
