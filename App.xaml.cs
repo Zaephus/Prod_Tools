@@ -22,13 +22,12 @@ namespace Prod_Tools {
 
             CompositionTarget.Rendering += Update;
 
-
         }
 
         private void Update(object _sender, EventArgs _e) {
             mainWindow.Update();
-            Console.WriteLine("Updating");
         }
+
     }
     
 }

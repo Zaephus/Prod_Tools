@@ -1,11 +1,12 @@
-﻿<Window x:Class="Prod_Tools.MainWindow"
+﻿
+<Window x:Class="Prod_Tools.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prod_Tools"
         mc:Ignorable="d"
-        Title="Names" Height="180" Width="260">
+        Title="Names" Height="360" Width="770">
 
     <Grid Margin="10">
 
@@ -17,6 +18,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Label>Names</Label>
@@ -27,8 +29,13 @@
             <Button x:Name="btnAdd" Margin="0,5,0,0" Click="ButtonAddName_Click">Add Name</Button>
         </StackPanel>
 
-    </Grid>
+        <Image Width="200" Grid.Row="1" Grid.Column="2" RenderOptions.BitmapScalingMode="NearestNeighbor">
+            <Image.Source>
+                <BitmapImage DecodePixelWidth="200" 
+                UriSource="A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\sprites\Coin v1.png" />
+            </Image.Source>
+        </Image>
 
-    
+    </Grid>
 
 </Window>
