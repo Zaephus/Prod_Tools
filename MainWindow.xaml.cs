@@ -18,8 +18,23 @@ namespace Prod_Tools {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
         public MainWindow() {
             InitializeComponent();
+        }
+
+        public void Update() {
+            if((Keyboard.GetKeyStates(Key.Enter) & KeyStates.Down) > 0) {
+                ButtonAddName_Click(null, null);
+            }
+        }
+
+        private void ButtonAddName_Click(object _sender, RoutedEventArgs _e) {
+            if (!string.IsNullOrWhiteSpace(txtName.Text) && !lstNames.Items.Contains(txtName.Text))
+            {
+                lstNames.Items.Add(txtName.Text);
+                txtName.Clear();
+            }
         }
     }
 }
