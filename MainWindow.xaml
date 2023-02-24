@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Prod_Tools"
         mc:Ignorable="d"
-        Title="Names" Height="360" Width="770">
+        Title="Names" Height="360" Width="1020">
 
     <Grid Margin="10">
 
@@ -16,6 +16,7 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition />
@@ -29,12 +30,13 @@
             <Button x:Name="btnAdd" Margin="0,5,0,0" Click="ButtonAddName_Click">Add Name</Button>
         </StackPanel>
 
-        <Image Width="200" Grid.Row="1" Grid.Column="2" RenderOptions.BitmapScalingMode="NearestNeighbor">
-            <Image.Source>
-                <BitmapImage DecodePixelWidth="200" 
-                UriSource="A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\sprites\Coin v1.png" />
-            </Image.Source>
-        </Image>
+        <StackPanel Grid.Row="1" Grid.Column="2">
+            <Image x:Name="baseImage" Width="200" Grid.Row="1" Grid.Column="2" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+            <Button x:Name="loadImage" Margin = "0,5,0,0" Click="LoadImage">Load Image</Button>
+        </StackPanel>
+
+        <Image x:Name="hexImage" Width="200" Grid.Row="1" Grid.Column="3" RenderOptions.BitmapScalingMode="NearestNeighbor" HorizontalAlignment="Center" VerticalAlignment="Center" />            
+        <Path x:Name="hexPath" Stroke="Black" StrokeThickness="3" Width="200" Grid.Row="1" Grid.Column="3" Loaded="HexagonLoaded" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
     </Grid>
 
