@@ -88,8 +88,6 @@ public class PlacementManager : MonoBehaviour {
 
         //int tileIndex = levelEditor.tiles.FindIndex(x => x == hoveredTile);
         //Don't know why this could be necessary
-
-        Debug.Log(hoveredTile);
         
         if(hoveredTile != null) {
             levelEditor.tiles.Remove(hoveredTile);
