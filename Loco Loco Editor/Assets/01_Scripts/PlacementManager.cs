@@ -88,6 +88,8 @@ public class PlacementManager : MonoBehaviour {
 
         //int tileIndex = levelEditor.tiles.FindIndex(x => x == hoveredTile);
         //Don't know why this could be necessary
+
+        Debug.Log(hoveredTile);
         
         if(hoveredTile != null) {
             levelEditor.tiles.Remove(hoveredTile);
@@ -121,29 +123,18 @@ public class PlacementManager : MonoBehaviour {
 
         if(Physics.Raycast(ray, out hit)) {
 
-            hoveredTile = hit.collider.GetComponentInParent<Tile>();
+            tileSelector.transform.position = new Vector3(
+                Mathf.Round(hit.point.x),
+                0.0f,
+                Mathf.Round(hit.point.z)
+            );
 
-            if(hoveredTile == null) {
-                return;
+            if(hit.collider.GetComponent<Tile>() != null) {
+                hoveredTile = hit.collider.GetComponentInParent<Tile>();
             }
-
-            tileSelector.transform.position = new Vector3(
-                hoveredTile.transform.position.x,
-                0.0f,
-                hoveredTile.transform.position.z
-            );
-
-        }
-        else {
-
-            hoveredTile = null;
-
-            Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            tileSelector.transform.position = new Vector3(
-                Mathf.Round(pos.x),
-                0.0f,
-                Mathf.Round(pos.z)
-            );
+            else {
+                hoveredTile = null;
+            }
 
         }
 
