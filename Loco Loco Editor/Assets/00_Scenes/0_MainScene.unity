@@ -444,7 +444,7 @@ Camera:
   m_GameObject: {fileID: 330585543}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.066235006, g: 0.41509432, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -973,7 +973,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 215, y: 75}
+  m_AnchoredPosition: {x: 235, y: 75}
   m_SizeDelta: {x: 420, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712840789
@@ -1404,7 +1404,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 857f21b11cdc43a4eb76d67af579f3e0, type: 2}
+  - {fileID: 2100000, guid: 79319b5dc766ac5458e1be9085079e1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2105,10 +2105,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d5a63b1358c3748a17c52f58df6967, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
-  rotateSpeed: 0
-  zoomSpeed: 0.8
+  moveSpeed: 8
+  rotateSpeed: 100
+  zoomSpeed: 10
   mainCamera: {fileID: 330585545}
+  cameraRotator: {fileID: 742371909}
 --- !u!4 &1560376798
 Transform:
   m_ObjectHideFlags: 0

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour {
 
+    public static System.Action<bool> CursorLocked;
+    public static System.Action CameraReset;
+
     [SerializeField]
     private float moveSpeed;
     [SerializeField]
@@ -14,29 +17,74 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField]
     private Camera mainCamera;
 
-    private float horizontal;
-    private float vertical;
+    [SerializeField]
+    private GameObject cameraRotator;
+
+    private Vector3 mouseDelta;
     
     private float scrollDelta;
 
+    private Vector3 startPosition;
+    private Quaternion startRotation;
+    private float startZoom;
+
+    private void Start() {
+        startPosition = transform.position;
+        startRotation = cameraRotator.transform.rotation;
+        startZoom = mainCamera.orthographicSize;
+        CameraReset += ResetCamera;
+    }
+
     private void Update() {
 
-        horizontal = Input.GetAxis("Horizontal");
-        vertical = Input.GetAxis("Vertical");
+        mouseDelta = new Vector3(Input.GetAxis("Mouse X"), 0, Input.GetAxis("Mouse Y"));
+        mouseDelta.Normalize();
 
         scrollDelta = Input.mouseScrollDelta.y;
 
-        Vector3 velocity = new Vector3(horizontal, 0, vertical);
-        velocity.Normalize();
+        if(Input.GetMouseButton(2)) {
+            HideAndLockCursor();
+            transform.position += mouseDelta * moveSpeed * Time.deltaTime;
+        }
+        if(Input.GetMouseButtonUp(2)) {
+            ShowAndUnlockCursor();
+        }
 
-        transform.position += velocity * moveSpeed * Time.deltaTime;
+        if(Input.GetKey(KeyCode.LeftAlt)) {
+            HideAndLockCursor();
+            if(Input.GetMouseButton(0)) {
+                cameraRotator.transform.eulerAngles -= new Vector3(0, mouseDelta.x, 0) * rotateSpeed * Time.deltaTime;
+            }
+        }
+        if(Input.GetKeyUp(KeyCode.LeftAlt)) {
+            ShowAndUnlockCursor();
+        }
 
         if(scrollDelta < 0.0f && mainCamera.orthographicSize <= 20) {
-            mainCamera.orthographicSize += zoomSpeed;
+            mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
         }
         if(scrollDelta > 0.0f && mainCamera.orthographicSize >= 2) {
-            mainCamera.orthographicSize -= zoomSpeed;
+            mainCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
         }
-        
+
     }
+
+    private void ResetCamera() {
+        transform.position = startPosition;
+        cameraRotator.transform.rotation = startRotation;
+        mainCamera.orthographicSize = startZoom;
+    }
+
+    private void ShowAndUnlockCursor() {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        CursorLocked?.Invoke(false);
+    }
+
+    private void HideAndLockCursor() {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        CursorLocked?.Invoke(true);
+    }
+
 }

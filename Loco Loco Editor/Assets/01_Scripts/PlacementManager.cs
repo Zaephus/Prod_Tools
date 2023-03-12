@@ -36,6 +36,7 @@ public class PlacementManager : MonoBehaviour {
     private LevelEditor levelEditor;
 
     public void Initialize(LevelEditor _levelEditor) {
+
         levelEditor = _levelEditor;
         List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
 
@@ -45,6 +46,8 @@ public class PlacementManager : MonoBehaviour {
         }
 
         tileDropdown.AddOptions(dropdownOptions);
+
+        CameraMovement.CursorLocked += ToggleChecking;
     }
 
     public void OnUpdate() {
@@ -80,6 +83,12 @@ public class PlacementManager : MonoBehaviour {
             IsChecking = true;
         }
 
+    }
+
+    private void ToggleChecking(bool _value) {
+        IsChecking = !_value;
+        ChangeSelection();
+        hoveredTile = null;
     }
 
     private void HandleShortcuts() {
