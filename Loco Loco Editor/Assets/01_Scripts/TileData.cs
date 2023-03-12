@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class TileData {
 
     public int x;
@@ -13,6 +14,7 @@ public class TileData {
     public SwitchState switchState;
     public SwitchInputType switchInputType;
 
+    public TileData() {}
     public TileData(Vector3 _pos, TileRotation _rot, TileType _type) : this(_pos, _rot, _type, SwitchState.None, SwitchInputType.None) {}
     public TileData(Vector3 _pos, TileRotation _rot, TileType _type, SwitchState _switchState, SwitchInputType _inputType) {
 
@@ -24,7 +26,7 @@ public class TileData {
 
         switchState = _switchState;
         switchInputType = _inputType;
-        
+
     }
     
 }

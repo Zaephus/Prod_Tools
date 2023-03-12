@@ -13,7 +13,7 @@ public static class DataManager {
 
     private static FileStream fileStream;
 
-    private static void SaveLevel(TileData[] _tileDatas) {
+    public static void SaveLevel(TileData[] _tileDatas) {
 
         string path = StandaloneFileBrowser.SaveFilePanel("Save File", "", "Level", extensionFilters);
 
@@ -42,7 +42,7 @@ public static class DataManager {
 
     }
 
-    private static TileData[] LoadLevel() {
+    public static TileData[] LoadLevel() {
 
         TileData[] tileDatas = null;
 

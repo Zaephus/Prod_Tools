@@ -40,7 +40,8 @@ public class PlacementManager : MonoBehaviour {
         List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
 
         for(int i = 0; i < System.Enum.GetNames(typeof(TileType)).Length; i++) {
-            dropdownOptions.Add(new TMP_Dropdown.OptionData(System.Enum.GetNames(typeof(TileType))[i]));
+            string dropdownName = i + " - " + System.Enum.GetNames(typeof(TileType))[i].Replace("_", " ");
+            dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
         }
 
         tileDropdown.AddOptions(dropdownOptions);
@@ -51,6 +52,8 @@ public class PlacementManager : MonoBehaviour {
         if(Input.GetKeyDown(KeyCode.R)) {
             SetTileRotation();
         }
+
+        HandleShortcuts();
 
         if(IsChecking && !EventSystem.current.IsPointerOverGameObject()) {
 
@@ -75,6 +78,25 @@ public class PlacementManager : MonoBehaviour {
         }
         else {
             IsChecking = true;
+        }
+
+    }
+
+    private void HandleShortcuts() {
+
+        int tileMax = System.Enum.GetNames(typeof(TileType)).Length;
+        if(tileMax > 10) {
+            tileMax = 10;
+        }
+
+        for(int i = 0; i < tileMax; i++) {
+            if(Input.GetKeyDown(i.ToString())) {
+                tileDropdown.value = i;
+            }
+        }
+
+        if(Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.S)) {
+            levelEditor.SaveLevel();
         }
 
     }
