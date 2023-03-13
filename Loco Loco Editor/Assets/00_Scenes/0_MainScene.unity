@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.18263796, g: 0.2283482, b: 0.30714476, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -139,11 +139,16 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1507470000}
+      objectReference: {fileID: 1507470001}
     - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ChangePlacingType
+      objectReference: {fileID: 0}
+    - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlacementManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5689746166165715632, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
@@ -555,6 +560,121 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213466584}
   m_CullTransparentMesh: 1
+--- !u!1 &224021884
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 224021885}
+  - component: {fileID: 224021887}
+  - component: {fileID: 224021886}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &224021885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224021884}
+  m_LocalRotation: {x: 0.3420201, y: 0, z: 0, w: 0.9396927}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1507470003}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
+--- !u!114 &224021886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224021884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}
+--- !u!108 &224021887
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 224021884}
+  m_Enabled: 1
+  serializedVersion: 10
+  m_Type: 1
+  m_Shape: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_InnerSpotAngle: 21.80208
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+    m_CullingMatrixOverride:
+      e00: 1
+      e01: 0
+      e02: 0
+      e03: 0
+      e10: 0
+      e11: 1
+      e12: 0
+      e13: 0
+      e20: 0
+      e21: 0
+      e22: 1
+      e23: 0
+      e30: 0
+      e31: 0
+      e32: 0
+      e33: 1
+    m_UseCullingMatrixOverride: 0
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 1
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
 --- !u!1 &281279053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1170,7 +1290,7 @@ GameObject:
   - component: {fileID: 712840790}
   - component: {fileID: 712840789}
   m_Layer: 5
-  m_Name: Tile Dropdown
+  m_Name: Dropdown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1254,7 +1374,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1507470001}
         m_TargetAssemblyTypeName: PlacementManager, Assembly-CSharp
-        m_MethodName: ChangeSelection
+        m_MethodName: OnDropdownValueChanged
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1723,7 +1843,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1507470003}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1000365124
 GameObject:
@@ -2073,11 +2193,21 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1507470000}
+      objectReference: {fileID: 1507470001}
     - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ChangePlacingType
+      objectReference: {fileID: 0}
+    - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlacementManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5689746166165715632, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
@@ -2283,7 +2413,7 @@ RectTransform:
   - {fileID: 712840788}
   - {fileID: 1495490425}
   m_Father: {fileID: 1507470003}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2401,10 +2531,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa95828e82e97c54a9d81e07d81fb9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileDropdown: {fileID: 712840789}
+  dropdown: {fileID: 712840789}
   tileSelector: {fileID: 681713484}
-  unSelectableColour: {r: 0, g: 0, b: 0, a: 0}
-  selectableColour: {r: 0, g: 0, b: 0, a: 0}
+  unSelectableColour: {r: 1, g: 0, b: 0, a: 0.7058824}
+  selectableColour: {r: 0, g: 1, b: 0, a: 0.7058824}
 --- !u!114 &1507470002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2431,6 +2561,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1560376798}
+  - {fileID: 224021885}
   - {fileID: 681713487}
   - {fileID: 1110268702}
   - {fileID: 970476467}
@@ -2480,7 +2611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 8
   rotateSpeed: 100
-  zoomSpeed: 10
+  zoomSpeed: 20
   mainCamera: {fileID: 330585545}
   cameraRotator: {fileID: 742371909}
 --- !u!4 &1560376798
@@ -2727,11 +2858,21 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1507470000}
+      objectReference: {fileID: 1507470001}
     - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: ChangePlacingType
+      objectReference: {fileID: 0}
+    - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlacementManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5689746166094342109, guid: d903219dc819622428dfd6a564c23300,
+        type: 3}
+      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5689746166165715632, guid: d903219dc819622428dfd6a564c23300,
         type: 3}
@@ -3018,7 +3159,7 @@ PrefabInstance:
     - target: {fileID: 908016006306377797, guid: d4b20f5798e98294c882f8a7a2445268,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 908016006306377797, guid: d4b20f5798e98294c882f8a7a2445268,
         type: 3}

@@ -12,6 +12,15 @@ public class PlacementManager : MonoBehaviour {
         SwitchState = 2,
         SwitchInput = 3
     }
+    private PlacingType CurrentPlacingType {
+        get {
+            return placingType;
+        }
+        set {
+            placingType = value;
+            HandlePlacingTypeChange();
+        }
+    }
     private PlacingType placingType = PlacingType.None;
 
     private bool IsChecking {
@@ -31,7 +40,7 @@ public class PlacementManager : MonoBehaviour {
     private bool isChecking;
 
     [SerializeField]
-    private TMP_Dropdown tileDropdown;
+    private TMP_Dropdown dropdown;
     private int dropdownValue;
 
     [SerializeField]
@@ -42,25 +51,14 @@ public class PlacementManager : MonoBehaviour {
     private Color selectableColour;
     
     private TileRotation tileRotation = TileRotation.Zero;
-    private TileType selectedType;
-    private SwitchState selectedSwitchState;
-    private SwitchInputType selectedSwitchInputType;
 
     private Tile hoveredTile;
 
     private LevelEditor levelEditor;
 
     public void Initialize(LevelEditor _levelEditor) {
-
         levelEditor = _levelEditor;
-        List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
-
-        for(int i = 0; i < System.Enum.GetNames(typeof(TileType)).Length; i++) {
-            string dropdownName = i + " - " + System.Enum.GetNames(typeof(TileType))[i].Replace("_", " ");
-            dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
-        }
-
-        tileDropdown.AddOptions(dropdownOptions);
+        dropdown.gameObject.SetActive(false);
 
         CameraMovement.CursorLocked += ToggleChecking;
     }
@@ -79,7 +77,15 @@ public class PlacementManager : MonoBehaviour {
 
             if(CheckPossiblePlacement()) {
                 if(Input.GetMouseButtonDown(0)) {
-                    PlaceTile();
+                    if(CurrentPlacingType == PlacingType.Tiles) {
+                        PlaceTile();
+                    }
+                    else if(CurrentPlacingType == PlacingType.SwitchState) {
+                        SetSwitchState();
+                    }
+                    else if(CurrentPlacingType == PlacingType.SwitchInput) {
+                        SetSwitchInputType();
+                    }
                 }
             }
 
@@ -88,25 +94,46 @@ public class PlacementManager : MonoBehaviour {
     }
 
     public void OnDropdownValueChanged() {
-        dropdownValue = tileDropdown.value;
+        dropdownValue = dropdown.value;
     }
 
-    public void ChangeTileSelection() {
-
-        selectedType = (TileType)tileDropdown.value;
-
-        
+    public void ChangePlacingType(int _type) {
+        CurrentPlacingType = (PlacingType)_type;
     }
 
-    public void ChangeSwitchStateSelection() {
-        
-    }
+    private void HandlePlacingTypeChange() {
 
-    public void ChangeSwitchInputSelection() {
+        switch(CurrentPlacingType) {
 
+            case PlacingType.Tiles:
+                IsChecking = true;
+                ChangeDropdownContents(typeof(TileType));
+                dropdown.gameObject.SetActive(true);
+                break;
+
+            case PlacingType.SwitchState:
+                IsChecking = true;
+                ChangeDropdownContents(typeof(SwitchState));
+                dropdown.gameObject.SetActive(true);
+                break;
+
+            case PlacingType.SwitchInput:
+                IsChecking = true;
+                ChangeDropdownContents(typeof(SwitchInputType));
+                dropdown.gameObject.SetActive(true);
+                break;
+
+            default:
+                IsChecking = false;
+                dropdown.gameObject.SetActive(false);
+                break;
+
+        }
     }
 
     private void ChangeDropdownContents(System.Type _enumType) {
+
+        dropdown.ClearOptions();
 
         List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
 
@@ -115,19 +142,21 @@ public class PlacementManager : MonoBehaviour {
             dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
         }
 
-        tileDropdown.AddOptions(dropdownOptions);
+        dropdown.AddOptions(dropdownOptions);
 
     }
 
     private void ToggleChecking(bool _value) {
         IsChecking = !_value;
-        ChangeTileSelection();
+        if(CurrentPlacingType == PlacingType.None) {
+            IsChecking = false;
+        }
         hoveredTile = null;
     }
 
     private void HandleShortcuts() {
 
-        int tileMax = tileDropdown.options.Count;;
+        int tileMax = dropdown.options.Count;;
         
         if(tileMax > 10) {
             tileMax = 10;
@@ -135,7 +164,7 @@ public class PlacementManager : MonoBehaviour {
 
         for(int i = 0; i < tileMax; i++) {
             if(Input.GetKeyDown(i.ToString())) {
-                tileDropdown.value = i;
+                dropdown.value = i;
             }
         }
 
@@ -146,14 +175,10 @@ public class PlacementManager : MonoBehaviour {
     }
 
     private void PlaceTile() {
+
+        TileType type = (TileType)dropdownValue;
         
-        GameObject objectToInstatiate = TileDatabase.Instance.GetTileByType(selectedType);
-
-        Vector3 tilePos = tileSelector.transform.position;
-        Vector3 tileRot = objectToInstatiate.transform.eulerAngles + new Vector3(0, Tile.GetTileRotation(tileRotation), 0);
-
-        //int tileIndex = levelEditor.tiles.FindIndex(x => x == hoveredTile);
-        //Don't know why this could be necessary
+        GameObject objectToInstatiate = TileDatabase.Instance.GetTileByType(type);
         
         if(hoveredTile != null) {
             levelEditor.tiles.Remove(hoveredTile);
@@ -161,12 +186,40 @@ public class PlacementManager : MonoBehaviour {
             hoveredTile = null;
         }
 
-        Tile tile = Instantiate(objectToInstatiate, tilePos, Quaternion.Euler(tileRot), transform).GetComponent<Tile>();
-        tile.tileType = selectedType;
-        tile.tileRotation = tileRotation;
+        if(type != TileType.None) {
+            Vector3 tilePos = tileSelector.transform.position;
+            Vector3 tileRot = objectToInstatiate.transform.eulerAngles + new Vector3(0, Tile.GetTileRotation(tileRotation), 0);
 
-        levelEditor.tiles.Add(tile);
-        //levelEditor.tiles.Insert(tileIndex, tile);
+            Tile tile = Instantiate(objectToInstatiate, tilePos, Quaternion.Euler(tileRot), transform).GetComponent<Tile>();
+            tile.tileType = type;
+            tile.tileRotation = tileRotation;
+
+            levelEditor.tiles.Add(tile);
+        }
+
+    }
+
+    private void SetSwitchState() {
+
+        SwitchState state = (SwitchState)dropdownValue;
+
+        if(hoveredTile == null) {
+            return;
+        }
+
+        hoveredTile.switchState = state;
+
+    }
+
+    private void SetSwitchInputType() {
+
+        SwitchInputType type = (SwitchInputType)dropdownValue;
+
+        if(hoveredTile == null) {
+            return;
+        }
+
+        hoveredTile.switchInputType = type;
 
     }
 
@@ -207,7 +260,7 @@ public class PlacementManager : MonoBehaviour {
     private bool CheckPossiblePlacement() {
 
         if(placingType > PlacingType.Tiles) {
-            if(hoveredTile.tileType < TileType.Switch_Left_Right) {
+            if(hoveredTile == null || hoveredTile.tileType < TileType.Switch_Left_Right) {
                 tileSelector.GetComponent<MeshRenderer>().material.color = unSelectableColour;
                 return false;
             }

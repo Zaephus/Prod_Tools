@@ -48,13 +48,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Grass_Amount: 0.3
     - _Is_Transparent: 0
     - _Line_Thickness: 0.03
+    - _Mud_Amount: 0.37
+    - _Mud_Size: 10
     - _QueueControl: 1
     - _QueueOffset: 0
     m_Colors:
-    - _Background_Colour: {r: 0.043108072, g: 0.4433962, b: 0.010039146, a: 0}
+    - _Background_Colour: {r: 0.4056604, g: 0.25793877, b: 0.29842284, a: 0}
     - _Cell_Size: {r: 1, g: 1, b: 0, a: 0}
+    - _Grass_Colour: {r: 0.33333325, g: 0.5372549, b: 0.38823524, a: 1}
     - _Line_Colour: {r: 0, g: 0, b: 0, a: 0}
+    - _Mud_Colour: {r: 0.6666667, g: 0.490196, b: 0.40392154, a: 1}
     - _Offset: {r: 0.5, g: 0.5, b: 0, a: 0}
   m_BuildTextureStacks: []
