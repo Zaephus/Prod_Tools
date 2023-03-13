@@ -7,6 +7,9 @@ public class Tile : MonoBehaviour {
     public TileType tileType;
     public TileRotation tileRotation;
 
+    public SwitchState switchState;
+    public SwitchInputType switchInputType;
+
     public static float GetTileRotation(TileRotation _tileRotation) {
         switch(_tileRotation) {
             case TileRotation.Zero:

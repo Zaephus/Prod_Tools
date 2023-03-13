@@ -6,6 +6,14 @@ using TMPro;
 
 public class PlacementManager : MonoBehaviour {
 
+    private enum PlacingType {
+        None = 0,
+        Tiles = 1,
+        SwitchState = 2,
+        SwitchInput = 3
+    }
+    private PlacingType placingType = PlacingType.None;
+
     private bool IsChecking {
         get {
             return isChecking;
@@ -24,12 +32,19 @@ public class PlacementManager : MonoBehaviour {
 
     [SerializeField]
     private TMP_Dropdown tileDropdown;
+    private int dropdownValue;
 
     [SerializeField]
     private GameObject tileSelector;
+    [SerializeField]
+    private Color unSelectableColour;
+    [SerializeField]
+    private Color selectableColour;
     
-    private TileType selectedType;
     private TileRotation tileRotation = TileRotation.Zero;
+    private TileType selectedType;
+    private SwitchState selectedSwitchState;
+    private SwitchInputType selectedSwitchInputType;
 
     private Tile hoveredTile;
 
@@ -62,8 +77,8 @@ public class PlacementManager : MonoBehaviour {
 
             CheckForTile();
 
-            if(Input.GetMouseButtonDown(0)) {
-                if(selectedType != TileType.None) {
+            if(CheckPossiblePlacement()) {
+                if(Input.GetMouseButtonDown(0)) {
                     PlaceTile();
                 }
             }
@@ -72,28 +87,48 @@ public class PlacementManager : MonoBehaviour {
 
     }
 
-    public void ChangeSelection() {
+    public void OnDropdownValueChanged() {
+        dropdownValue = tileDropdown.value;
+    }
+
+    public void ChangeTileSelection() {
 
         selectedType = (TileType)tileDropdown.value;
 
-        if(selectedType == TileType.None) {
-            IsChecking = false;
+        
+    }
+
+    public void ChangeSwitchStateSelection() {
+        
+    }
+
+    public void ChangeSwitchInputSelection() {
+
+    }
+
+    private void ChangeDropdownContents(System.Type _enumType) {
+
+        List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
+
+        for(int i = 0; i < System.Enum.GetNames(_enumType).Length; i++) {
+            string dropdownName = i + " - " + System.Enum.GetNames(_enumType)[i].Replace("_", " ");
+            dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
         }
-        else {
-            IsChecking = true;
-        }
+
+        tileDropdown.AddOptions(dropdownOptions);
 
     }
 
     private void ToggleChecking(bool _value) {
         IsChecking = !_value;
-        ChangeSelection();
+        ChangeTileSelection();
         hoveredTile = null;
     }
 
     private void HandleShortcuts() {
 
-        int tileMax = System.Enum.GetNames(typeof(TileType)).Length;
+        int tileMax = tileDropdown.options.Count;;
+        
         if(tileMax > 10) {
             tileMax = 10;
         }
@@ -166,6 +201,20 @@ public class PlacementManager : MonoBehaviour {
             }
 
         }
+
+    }
+
+    private bool CheckPossiblePlacement() {
+
+        if(placingType > PlacingType.Tiles) {
+            if(hoveredTile.tileType < TileType.Switch_Left_Right) {
+                tileSelector.GetComponent<MeshRenderer>().material.color = unSelectableColour;
+                return false;
+            }
+        }
+
+        tileSelector.GetComponent<MeshRenderer>().material.color = selectableColour;
+        return true;
 
     }
 

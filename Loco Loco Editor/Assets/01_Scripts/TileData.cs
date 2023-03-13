@@ -15,7 +15,6 @@ public class TileData {
     public SwitchInputType switchInputType;
 
     public TileData() {}
-    public TileData(Vector3 _pos, TileRotation _rot, TileType _type) : this(_pos, _rot, _type, SwitchState.None, SwitchInputType.None) {}
     public TileData(Vector3 _pos, TileRotation _rot, TileType _type, SwitchState _switchState, SwitchInputType _inputType) {
 
         x = Mathf.RoundToInt(_pos.x);

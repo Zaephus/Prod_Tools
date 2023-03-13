@@ -24,9 +24,11 @@ public class LevelGenerator : MonoBehaviour {
 
             tile.tileRotation = _tileDatas[i].tileRotation;
             tile.tileType = _tileDatas[i].tileType;
+            tile.switchState = _tileDatas[i].switchState;
+            tile.switchInputType = _tileDatas[i].switchInputType;
 
             tiles.Add(tile);
-            
+
         }
 
         return tiles;
