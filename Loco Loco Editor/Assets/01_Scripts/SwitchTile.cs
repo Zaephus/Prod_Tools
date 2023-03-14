@@ -21,7 +21,8 @@ public class SwitchTile : Tile {
 
         if(CurrentSwitchState != SwitchState.None) {
             GameObject objectToInstantiate = TileDatabase.Instance.GetSwitchStateIndicator(CurrentSwitchState, tileType);
-            Instantiate(objectToInstantiate, pathContainer.position, objectToInstantiate.transform.rotation, pathContainer);
+            Quaternion rot = Quaternion.Euler(objectToInstantiate.transform.eulerAngles + transform.eulerAngles);
+            Instantiate(objectToInstantiate, pathContainer.position, rot, pathContainer);
         }
     }
 

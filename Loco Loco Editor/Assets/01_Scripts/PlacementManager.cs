@@ -166,15 +166,20 @@ public class PlacementManager : MonoBehaviour {
 
     private void HandleShortcuts() {
 
-        int tileMax = dropdown.options.Count;;
+        int tileMax = dropdown.options.Count;
+
+        int startIndex = 0;
+        if(CurrentPlacingType != PlacingType.Tiles) {
+            startIndex = 1;
+        }
         
         if(tileMax > 10) {
             tileMax = 10;
         }
 
-        for(int i = 0; i < tileMax; i++) {
+        for(int i = startIndex; i < startIndex + tileMax; i++) {
             if(Input.GetKeyDown(i.ToString())) {
-                dropdown.value = i;
+                dropdown.value = i - startIndex;
             }
         }
 
@@ -216,7 +221,7 @@ public class PlacementManager : MonoBehaviour {
 
     private void SetSwitchState() {
 
-        SwitchState state = (SwitchState)dropdownValue;
+        SwitchState state = (SwitchState)dropdownValue + 1;
 
         if(hoveredTile == null) {
             return;
@@ -228,7 +233,7 @@ public class PlacementManager : MonoBehaviour {
 
     private void SetSwitchInputType() {
 
-        SwitchInputType type = (SwitchInputType)dropdownValue;
+        SwitchInputType type = (SwitchInputType)dropdownValue + 1;
 
         if(hoveredTile == null) {
             return;
