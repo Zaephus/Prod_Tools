@@ -44,7 +44,8 @@ public class CameraMovement : MonoBehaviour {
 
         if(Input.GetMouseButton(2)) {
             HideAndLockCursor();
-            transform.position += mouseDelta * moveSpeed * Time.deltaTime;
+            Vector3 moveDir = mouseDelta.x * cameraRotator.transform.right + mouseDelta.z * cameraRotator.transform.forward;
+            transform.position += moveDir * moveSpeed * Time.deltaTime;
         }
         if(Input.GetMouseButtonUp(2)) {
             ShowAndUnlockCursor();

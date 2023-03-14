@@ -28,6 +28,12 @@ MonoBehaviour:
     type: 3}
   switchStraightRightTrack: {fileID: 7064333370438623376, guid: 70d2cd003cdd03041afe3021da0b10df,
     type: 3}
+  straightIndicator: {fileID: 5145097128861479341, guid: 15e37b5551cc2ed45b83313ad1a574a6,
+    type: 3}
+  rightIndicator: {fileID: 5119341236170570959, guid: c0f0971635627b7459659809052981b9,
+    type: 3}
+  leftIndicator: {fileID: 5119341236170570959, guid: 1fa403a4a54a4b14c84f8b42d1083c9e,
+    type: 3}
   greenInputIcon: {fileID: 8120568042618973230, guid: c8be903c0c2b1a546a9251d5868f1b2f,
     type: 3}
   yellowInputIcon: {fileID: 8616389780579618317, guid: a05aee9e60b336e43bbeb854734f397a,
