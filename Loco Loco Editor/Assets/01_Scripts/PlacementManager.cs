@@ -98,7 +98,12 @@ public class PlacementManager : MonoBehaviour {
     }
 
     public void ChangePlacingType(int _type) {
-        CurrentPlacingType = (PlacingType)_type;
+        if(CurrentPlacingType == (PlacingType)_type) {
+            CurrentPlacingType = PlacingType.None;
+        }
+        else {
+            CurrentPlacingType = (PlacingType)_type;
+        }
     }
 
     private void HandlePlacingTypeChange() {
@@ -133,11 +138,16 @@ public class PlacementManager : MonoBehaviour {
 
     private void ChangeDropdownContents(System.Type _enumType) {
 
+        int startIndex = 0;
+        if(_enumType == typeof(SwitchState) || _enumType == typeof(SwitchInputType)) {
+            startIndex = 1;
+        }
+
         dropdown.ClearOptions();
 
         List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
 
-        for(int i = 0; i < System.Enum.GetNames(_enumType).Length; i++) {
+        for(int i = startIndex; i < System.Enum.GetNames(_enumType).Length; i++) {
             string dropdownName = i + " - " + System.Enum.GetNames(_enumType)[i].Replace("_", " ");
             dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
         }
@@ -194,6 +204,11 @@ public class PlacementManager : MonoBehaviour {
             tile.tileType = type;
             tile.tileRotation = tileRotation;
 
+            if(type >= TileType.Switch_Left_Right) {
+                tile.CurrentSwitchState = SwitchState.One;
+                tile.CurrentSwitchInputType = SwitchInputType.Green;
+            }
+
             levelEditor.tiles.Add(tile);
         }
 
@@ -207,7 +222,7 @@ public class PlacementManager : MonoBehaviour {
             return;
         }
 
-        hoveredTile.switchState = state;
+        hoveredTile.CurrentSwitchState = state;
 
     }
 
@@ -219,7 +234,7 @@ public class PlacementManager : MonoBehaviour {
             return;
         }
 
-        hoveredTile.switchInputType = type;
+        hoveredTile.CurrentSwitchInputType = type;
 
     }
 

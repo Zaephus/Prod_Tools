@@ -22,9 +22,17 @@ MonoBehaviour:
     type: 3}
   tunnelTrack: {fileID: 6660124117007682979, guid: eb1749256bd8b3d46a2b750e9676e9e4,
     type: 3}
-  SwitchLeftRightTrack: {fileID: 9101654213860863850, guid: adef2e763bb5eb44ea59dcdb41adcb54,
+  switchLeftRightTrack: {fileID: 9101654213860863850, guid: adef2e763bb5eb44ea59dcdb41adcb54,
     type: 3}
-  SwitchStraightLeftTrack: {fileID: 2459905204647276983, guid: 2cc81e31b0cbbb048b9b97bbbf8b32b7,
+  switchStraightLeftTrack: {fileID: 2459905204647276983, guid: 2cc81e31b0cbbb048b9b97bbbf8b32b7,
     type: 3}
-  SwitchStraightRightTrack: {fileID: 7064333370438623376, guid: 70d2cd003cdd03041afe3021da0b10df,
+  switchStraightRightTrack: {fileID: 7064333370438623376, guid: 70d2cd003cdd03041afe3021da0b10df,
+    type: 3}
+  greenInputIcon: {fileID: 8120568042618973230, guid: c8be903c0c2b1a546a9251d5868f1b2f,
+    type: 3}
+  yellowInputIcon: {fileID: 8616389780579618317, guid: a05aee9e60b336e43bbeb854734f397a,
+    type: 3}
+  blueInputIcon: {fileID: 5282959141869007630, guid: 73ddfea5c4ad70d4aa05aaf75609f57b,
+    type: 3}
+  redInputIcon: {fileID: 4409359203474370936, guid: 2d32032c72eade7478dc84feb507f15d,
     type: 3}

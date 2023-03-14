@@ -46,6 +46,7 @@ public class DepthNormalsFeature : ScriptableRendererFeature
         // Use <c>ScriptableRenderContext</c> to issue drawing commands or execute command buffers
         // https://docs.unity3d.com/ScriptReference/Rendering.ScriptableRenderContext.html
         // You don't have to call ScriptableRenderContext.submit, the render pipeline will call it at specific points in the pipeline.
+        #pragma warning disable 0618
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             CommandBuffer cmd = CommandBufferPool.Get(m_ProfilerTag);
@@ -78,6 +79,7 @@ public class DepthNormalsFeature : ScriptableRendererFeature
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
         }
+        #pragma warning restore 0618
 
         /// Cleanup any allocated resources that were created during the execution of this render pass.
         public override void FrameCleanup(CommandBuffer cmd)

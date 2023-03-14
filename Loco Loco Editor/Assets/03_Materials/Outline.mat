@@ -106,7 +106,7 @@ Material:
     - _DecalMeshBiasType: 0
     - _DecalMeshDepthBias: 0
     - _DecalMeshViewBias: 0
-    - _Depth_Sensitivity: 2
+    - _Depth_Sensitivity: 15
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DrawOrder: 0

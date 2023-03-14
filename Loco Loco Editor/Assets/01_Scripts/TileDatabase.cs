@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Tile Database", menuName = "Scriptable Objects/Tile Database")]
 public class TileDatabase : ScriptableSingleton<TileDatabase> {
 
+    [Header("Tiles")]
     [SerializeField]
     private GameObject straightTrack;
     [SerializeField]
@@ -16,11 +17,29 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
     [SerializeField]
     private GameObject tunnelTrack;
     [SerializeField]
-    private GameObject SwitchLeftRightTrack;
+    private GameObject switchLeftRightTrack;
     [SerializeField]
-    private GameObject SwitchStraightLeftTrack;
+    private GameObject switchStraightLeftTrack;
     [SerializeField]
-    private GameObject SwitchStraightRightTrack;
+    private GameObject switchStraightRightTrack;
+
+    [Header("Switch State Indicators")]
+    [SerializeField]
+    private GameObject straightIndicator;
+    [SerializeField]
+    private GameObject rightIndicator;
+    [SerializeField]
+    private GameObject leftIndicator;
+
+    [Header("Switch Input Indicators")]
+    [SerializeField]
+    private GameObject greenInputIcon;
+    [SerializeField]
+    private GameObject yellowInputIcon;
+    [SerializeField]
+    private GameObject blueInputIcon;
+    [SerializeField]
+    private GameObject redInputIcon;
 
     public GameObject GetTileByType(TileType _type) {
 
@@ -42,19 +61,79 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
                 return tunnelTrack;
 
             case TileType.Switch_Left_Right:
-                return SwitchLeftRightTrack;
+                return switchLeftRightTrack;
 
             case TileType.Switch_Straight_Left:
-                return SwitchStraightLeftTrack;
+                return switchStraightLeftTrack;
 
             case TileType.Switch_Straight_Right:
-                return SwitchStraightRightTrack;
+                return switchStraightRightTrack;
 
             default:
                 return null;
 
         }
 
+    }
+
+    public GameObject GetSwitchStateIndicator(SwitchState _state, TileType _type) {
+
+        if(_state == SwitchState.None || _type < TileType.Switch_Left_Right) {
+            return null;
+        }
+
+        switch(_type) {
+
+            case TileType.Switch_Left_Right:
+                if(_state == SwitchState.One) {
+                    return rightIndicator;
+                }
+                else {
+                    return leftIndicator;
+                }
+
+            case TileType.Switch_Straight_Left:
+                if(_state == SwitchState.One) {
+                    return straightIndicator;
+                }
+                else {
+                    return leftIndicator;
+                }
+
+            case TileType.Switch_Straight_Right:
+                if(_state == SwitchState.One) {
+                    return straightIndicator;
+                }
+                else {
+                    return rightIndicator;
+                }
+
+            default:
+                return null;
+
+        }
+        
+    }
+
+    public GameObject GetInputIndicator(SwitchInputType _inputType) {
+
+        switch(_inputType) {
+            
+            case SwitchInputType.Green:
+                return greenInputIcon;
+
+            case SwitchInputType.Yellow:
+                return yellowInputIcon;
+
+            case SwitchInputType.Blue:
+                return blueInputIcon;
+
+            case SwitchInputType.Red:
+                return redInputIcon;
+
+            default:
+                return null;
+        }
     }
 
 }

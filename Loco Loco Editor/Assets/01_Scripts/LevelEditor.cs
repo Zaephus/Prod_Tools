@@ -25,7 +25,7 @@ public class LevelEditor : MonoBehaviour {
         TileData[] tileDatas = new TileData[tiles.Count];
         for(int i = 0; i < tileDatas.Length; i++) {
             Tile t = tiles[i];
-            tileDatas[i] = new TileData(t.transform.position, t.tileRotation, t.tileType, t.switchState, t.switchInputType);
+            tileDatas[i] = new TileData(t.transform.position, t.tileRotation, t.tileType, t.CurrentSwitchState, t.CurrentSwitchInputType);
         }
 
         DataManager.SaveLevel(tileDatas);
