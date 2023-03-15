@@ -1,0 +1,10 @@
+@startuml
+class TileDatabase {
+    + GetTileByType(_type:TileType) : GameObject
+    + GetSwitchStateIndicator(_state:SwitchState, _type:TileType) : GameObject
+    + GetInputIndicator(_inputType:SwitchInputType) : GameObject
+}
+class "ScriptableSingleton`1"<T> {
+}
+"ScriptableSingleton`1" "<TileDatabase>" <|-- TileDatabase
+@enduml

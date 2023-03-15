@@ -1,0 +1,12 @@
+@startuml
+class TileData {
+    + x : int
+    + z : int
+    + TileData()
+    + TileData(_pos:Vector3, _rot:TileRotation, _type:TileType, _switchState:SwitchState, _inputType:SwitchInputType)
+}
+TileData --> "tileType" TileType
+TileData --> "tileRotation" TileRotation
+TileData --> "switchState" SwitchState
+TileData --> "switchInputType" SwitchInputType
+@enduml

@@ -1,0 +1,6 @@
+@startuml
+class DataManager <<static>> {
+    + {static} SaveLevel(_tileDatas:TileData[]) : void
+    + {static} LoadLevel() : TileData[]
+}
+@enduml

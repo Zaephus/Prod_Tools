@@ -1,0 +1,5 @@
+@startuml
+class CameraMovement {
+}
+MonoBehaviour <|-- CameraMovement
+@enduml

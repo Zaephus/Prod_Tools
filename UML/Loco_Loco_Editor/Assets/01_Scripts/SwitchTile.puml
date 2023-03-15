@@ -1,0 +1,5 @@
+@startuml
+class SwitchTile {
+}
+Tile <|-- SwitchTile
+@enduml

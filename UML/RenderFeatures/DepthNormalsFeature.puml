@@ -1,0 +1,22 @@
+@startuml
+class DepthNormalsFeature {
+    + <<override>> Create() : void
+    + <<override>> AddRenderPasses(renderer:ScriptableRenderer, renderingData:RenderingData) : void
+}
+class DepthNormalsPass {
+    kDepthBufferBits : int = 32
+    m_ProfilerTag : string = "DepthNormals Prepass"
+    + DepthNormalsPass(renderQueueRange:RenderQueueRange, layerMask:LayerMask, material:Material)
+    + Setup(baseDescriptor:RenderTextureDescriptor, depthAttachmentHandle:RenderTargetHandle) : void
+    + <<override>> Configure(cmd:CommandBuffer, cameraTextureDescriptor:RenderTextureDescriptor) : void
+    + <<override>> Execute(context:ScriptableRenderContext, renderingData:RenderingData) : void
+    + <<override>> FrameCleanup(cmd:CommandBuffer) : void
+}
+ScriptableRendererFeature <|-- DepthNormalsFeature
+DepthNormalsFeature --> "depthNormalsPass" DepthNormalsPass
+DepthNormalsFeature --> "depthNormalsTexture" RenderTargetHandle
+DepthNormalsFeature --> "depthNormalsMaterial" Material
+DepthNormalsFeature +-- DepthNormalsPass
+ScriptableRenderPass <|-- DepthNormalsPass
+DepthNormalsPass o-> "m_ShaderTagId" ShaderTagId
+@enduml

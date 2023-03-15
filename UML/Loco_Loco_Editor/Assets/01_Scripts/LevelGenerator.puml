@@ -1,0 +1,6 @@
+@startuml
+class LevelGenerator {
+    + Generate(_tileDatas:TileData[]) : List<Tile>
+}
+MonoBehaviour <|-- LevelGenerator
+@enduml

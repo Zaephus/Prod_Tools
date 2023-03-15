@@ -1,0 +1,150 @@
+@startuml
+class SwitchTile {
+}
+Tile <|-- SwitchTile
+class DataManager <<static>> {
+    + {static} SaveLevel(_tileDatas:TileData[]) : void
+    + {static} LoadLevel() : TileData[]
+}
+class EditorManager {
+    Start() : void
+    Update() : void
+}
+MonoBehaviour <|-- EditorManager
+class TileDatabase {
+    + GetTileByType(_type:TileType) : GameObject
+    + GetSwitchStateIndicator(_state:SwitchState, _type:TileType) : GameObject
+    + GetInputIndicator(_inputType:SwitchInputType) : GameObject
+}
+class "ScriptableSingleton`1"<T> {
+}
+"ScriptableSingleton`1" "<TileDatabase>" <|-- TileDatabase
+enum EditorState {
+    MainMenu= 0,
+    Editor= 1,
+}
+enum TileType {
+    None= 0,
+    Straight= 1,
+    Corner= 2,
+    Start= 3,
+    End= 4,
+    Tunnel= 5,
+    Switch_Left_Right= 6,
+    Switch_Straight_Left= 7,
+    Switch_Straight_Right= 8,
+}
+enum TileRotation {
+    Zero= 0,
+    One_Fourth= 1,
+    Half= 2,
+    Three_Fourth= 3,
+}
+enum SwitchState {
+    None= 0,
+    One= 1,
+    Two= 2,
+}
+enum SwitchInputType {
+    None= 0,
+    Green= 1,
+    Yellow= 2,
+    Blue= 3,
+    Red= 4,
+}
+class PlacementManager {
+    + Initialize(_levelEditor:LevelEditor) : void
+    + OnUpdate() : void
+    + OnDropdownValueChanged() : void
+    + ChangePlacingType(_type:int) : void
+}
+enum PlacingType {
+    None= 0,
+    Tiles= 1,
+    SwitchState= 2,
+    SwitchInput= 3,
+}
+MonoBehaviour <|-- PlacementManager
+PlacementManager +-- PlacingType
+class CameraMovement {
+}
+MonoBehaviour <|-- CameraMovement
+class LevelGenerator {
+    + Generate(_tileDatas:TileData[]) : List<Tile>
+}
+MonoBehaviour <|-- LevelGenerator
+class TileData {
+    + x : int
+    + z : int
+    + TileData()
+    + TileData(_pos:Vector3, _rot:TileRotation, _type:TileType, _switchState:SwitchState, _inputType:SwitchInputType)
+}
+TileData --> "tileType" TileType
+TileData --> "tileRotation" TileRotation
+TileData --> "switchState" SwitchState
+TileData --> "switchInputType" SwitchInputType
+class LevelEditor {
+    + Update() : void
+    + SaveLevel() : void
+    + LoadLevel() : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- LevelEditor
+LevelEditor o-> "tiles<Tile>" "List`1"
+class "ScriptableSingleton`1"<T> {
+    + {static} Instance : T <<get>>
+}
+ScriptableObject <|-- "ScriptableSingleton`1"
+class Tile {
+    + {static} GetTileRotation(_tileRotation:TileRotation) : float
+}
+MonoBehaviour <|-- Tile
+Tile --> "tileType" TileType
+Tile --> "tileRotation" TileRotation
+Tile --> "CurrentSwitchState" SwitchState
+Tile --> "CurrentSwitchInputType" SwitchInputType
+class OutlineFeature {
+    + <<override>> Create() : void
+    + <<override>> AddRenderPasses(renderer:ScriptableRenderer, renderingData:RenderingData) : void
+}
+class OutlinePass {
+    + Setup(source:RenderTargetIdentifier, destination:RenderTargetHandle) : void
+    + OutlinePass(outlineMaterial:Material)
+    + <<override>> Configure(cmd:CommandBuffer, cameraTextureDescriptor:RenderTextureDescriptor) : void
+    + <<override>> Execute(context:ScriptableRenderContext, renderingData:RenderingData) : void
+    + <<override>> FrameCleanup(cmd:CommandBuffer) : void
+}
+class OutlineSettings {
+}
+ScriptableRendererFeature <|-- OutlineFeature
+OutlineFeature o-> "settings" OutlineSettings
+OutlineFeature --> "outlinePass" OutlinePass
+OutlineFeature --> "outlineTexture" RenderTargetHandle
+OutlineFeature +-- OutlinePass
+ScriptableRenderPass <|-- OutlinePass
+OutlinePass o-> "outlineMaterial" Material
+OutlinePass --> "temporaryColorTexture" RenderTargetHandle
+OutlineFeature +-- OutlineSettings
+OutlineSettings o-> "outlineMaterial" Material
+class DepthNormalsFeature {
+    + <<override>> Create() : void
+    + <<override>> AddRenderPasses(renderer:ScriptableRenderer, renderingData:RenderingData) : void
+}
+class DepthNormalsPass {
+    kDepthBufferBits : int = 32
+    m_ProfilerTag : string = "DepthNormals Prepass"
+    + DepthNormalsPass(renderQueueRange:RenderQueueRange, layerMask:LayerMask, material:Material)
+    + Setup(baseDescriptor:RenderTextureDescriptor, depthAttachmentHandle:RenderTargetHandle) : void
+    + <<override>> Configure(cmd:CommandBuffer, cameraTextureDescriptor:RenderTextureDescriptor) : void
+    + <<override>> Execute(context:ScriptableRenderContext, renderingData:RenderingData) : void
+    + <<override>> FrameCleanup(cmd:CommandBuffer) : void
+}
+ScriptableRendererFeature <|-- DepthNormalsFeature
+DepthNormalsFeature --> "depthNormalsPass" DepthNormalsPass
+DepthNormalsFeature --> "depthNormalsTexture" RenderTargetHandle
+DepthNormalsFeature --> "depthNormalsMaterial" Material
+DepthNormalsFeature +-- DepthNormalsPass
+ScriptableRenderPass <|-- DepthNormalsPass
+DepthNormalsPass o-> "m_ShaderTagId" ShaderTagId
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+class PlacementManager {
+    + Initialize(_levelEditor:LevelEditor) : void
+    + OnUpdate() : void
+    + OnDropdownValueChanged() : void
+    + ChangePlacingType(_type:int) : void
+}
+enum PlacingType {
+    None= 0,
+    Tiles= 1,
+    SwitchState= 2,
+    SwitchInput= 3,
+}
+MonoBehaviour <|-- PlacementManager
+PlacementManager +-- PlacingType
+@enduml

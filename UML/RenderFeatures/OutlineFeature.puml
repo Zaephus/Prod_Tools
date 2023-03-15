@@ -1,0 +1,25 @@
+@startuml
+class OutlineFeature {
+    + <<override>> Create() : void
+    + <<override>> AddRenderPasses(renderer:ScriptableRenderer, renderingData:RenderingData) : void
+}
+class OutlinePass {
+    + Setup(source:RenderTargetIdentifier, destination:RenderTargetHandle) : void
+    + OutlinePass(outlineMaterial:Material)
+    + <<override>> Configure(cmd:CommandBuffer, cameraTextureDescriptor:RenderTextureDescriptor) : void
+    + <<override>> Execute(context:ScriptableRenderContext, renderingData:RenderingData) : void
+    + <<override>> FrameCleanup(cmd:CommandBuffer) : void
+}
+class OutlineSettings {
+}
+ScriptableRendererFeature <|-- OutlineFeature
+OutlineFeature o-> "settings" OutlineSettings
+OutlineFeature --> "outlinePass" OutlinePass
+OutlineFeature --> "outlineTexture" RenderTargetHandle
+OutlineFeature +-- OutlinePass
+ScriptableRenderPass <|-- OutlinePass
+OutlinePass o-> "outlineMaterial" Material
+OutlinePass --> "temporaryColorTexture" RenderTargetHandle
+OutlineFeature +-- OutlineSettings
+OutlineSettings o-> "outlineMaterial" Material
+@enduml

@@ -1,0 +1,7 @@
+@startuml
+class EditorManager {
+    Start() : void
+    Update() : void
+}
+MonoBehaviour <|-- EditorManager
+@enduml

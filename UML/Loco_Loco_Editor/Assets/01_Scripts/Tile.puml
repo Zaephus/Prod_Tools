@@ -1,0 +1,10 @@
+@startuml
+class Tile {
+    + {static} GetTileRotation(_tileRotation:TileRotation) : float
+}
+MonoBehaviour <|-- Tile
+Tile --> "tileType" TileType
+Tile --> "tileRotation" TileRotation
+Tile --> "CurrentSwitchState" SwitchState
+Tile --> "CurrentSwitchInputType" SwitchInputType
+@enduml

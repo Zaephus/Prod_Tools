@@ -1,0 +1,11 @@
+@startuml
+class LevelEditor {
+    + Update() : void
+    + SaveLevel() : void
+    + LoadLevel() : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- LevelEditor
+LevelEditor o-> "tiles<Tile>" "List`1"
+@enduml
