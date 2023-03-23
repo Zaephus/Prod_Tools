@@ -10,7 +10,8 @@ public class PlacementManager : MonoBehaviour {
     private enum PlacingType {
         None,
         PlacingTiles,
-        Bulldozing
+        Bulldozing,
+        SwitchEditing
     }
     private PlacingType CurrentPlacingType {
         get {
@@ -23,6 +24,10 @@ public class PlacementManager : MonoBehaviour {
 
             placingType = value;
 
+            if(placingType != PlacingType.SwitchEditing) {
+                switchContextMenu.gameObject.SetActive(false);
+            }
+
             if(placingType == PlacingType.PlacingTiles) {
                 selector = tileSelector;
                 selector.SetActive(true);
@@ -30,6 +35,9 @@ public class PlacementManager : MonoBehaviour {
             else if(placingType == PlacingType.Bulldozing) {
                 selector = bulldozeSelector;
                 selector.SetActive(true);
+            }
+            else if(placingType == PlacingType.SwitchEditing) {
+                switchContextMenu.gameObject.SetActive(true);
             }
 
         }
@@ -55,8 +63,10 @@ public class PlacementManager : MonoBehaviour {
     private GameObject tileSelector;
     [SerializeField]
     private GameObject bulldozeSelector;
-
     private GameObject selector;
+
+    [SerializeField]
+    private SwitchContextMenu switchContextMenu;
     
     private TileRotation tileRotation = TileRotation.Zero;
 
@@ -79,9 +89,18 @@ public class PlacementManager : MonoBehaviour {
 
             CheckForTile();
 
-            if(CurrentPlacingType == PlacingType.PlacingTiles || CurrentPlacingType == PlacingType.Bulldozing) {
-                if(Input.GetMouseButtonDown(0)) {
+            if(Input.GetMouseButtonDown(0)) {
+                if(CurrentPlacingType == PlacingType.PlacingTiles || CurrentPlacingType == PlacingType.Bulldozing) {
                     PlaceTile();
+                }
+                else if((CurrentPlacingType == PlacingType.None || CurrentPlacingType == PlacingType.SwitchEditing) && hoveredTile != null) {
+                    if(hoveredTile.tileType >= TileType.Switch_Left_Right) {
+                        switchContextMenu.Initialize((SwitchTile)hoveredTile);
+                        CurrentPlacingType = PlacingType.SwitchEditing;
+                    }
+                    else {
+                        CurrentPlacingType = PlacingType.None;
+                    }
                 }
             }
 
