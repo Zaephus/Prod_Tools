@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraMovement : MonoBehaviour {
 
@@ -61,11 +62,13 @@ public class CameraMovement : MonoBehaviour {
             ShowAndUnlockCursor();
         }
 
-        if(scrollDelta < 0.0f && mainCamera.orthographicSize <= 20) {
-            mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
-        }
-        if(scrollDelta > 0.0f && mainCamera.orthographicSize >= 2) {
-            mainCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
+        if(!EventSystem.current.IsPointerOverGameObject()) {
+            if(scrollDelta < 0.0f && mainCamera.orthographicSize <= 20) {
+                mainCamera.orthographicSize += zoomSpeed * Time.deltaTime;
+            }
+            if(scrollDelta > 0.0f && mainCamera.orthographicSize >= 2) {
+                mainCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
+            }
         }
 
     }

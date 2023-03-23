@@ -76,6 +76,20 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
 
     }
 
+    public GameObject[] GetAllTiles() {
+        GameObject[] tiles = {
+            straightTrack, 
+            cornerTrack,
+            startTrack,
+            endTrack,
+            tunnelTrack,
+            switchLeftRightTrack,
+            switchStraightLeftTrack,
+            switchStraightRightTrack
+        };
+        return tiles;
+    }
+
     public GameObject GetSwitchStateIndicator(SwitchState _state, TileType _type) {
 
         if(_state == SwitchState.None || _type < TileType.Switch_Left_Right) {

@@ -1,24 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
 public class PlacementManager : MonoBehaviour {
 
     private enum PlacingType {
-        None = 0,
-        Tiles = 1,
-        SwitchState = 2,
-        SwitchInput = 3
+        None,
+        PlacingTiles,
+        Bulldozing
     }
     private PlacingType CurrentPlacingType {
         get {
             return placingType;
         }
         set {
+            if(selector != null) {
+                selector.SetActive(false);
+            }
+
             placingType = value;
-            HandlePlacingTypeChange();
+
+            if(placingType == PlacingType.PlacingTiles) {
+                selector = tileSelector;
+                selector.SetActive(true);
+            }
+            else if(placingType == PlacingType.Bulldozing) {
+                selector = bulldozeSelector;
+                selector.SetActive(true);
+            }
+
         }
     }
     private PlacingType placingType = PlacingType.None;
@@ -29,26 +42,21 @@ public class PlacementManager : MonoBehaviour {
         }
         set {
             isChecking = value;
-            if(value) {
-                tileSelector.SetActive(true);
-            }
-            else {
-                tileSelector.SetActive(false);
-            }
         }
     }
-    private bool isChecking;
+    private bool isChecking = true;
+
+    private TileType tileType;
 
     [SerializeField]
-    private TMP_Dropdown dropdown;
-    private int dropdownValue;
+    private Toggle bulldozeToggle;
 
     [SerializeField]
     private GameObject tileSelector;
     [SerializeField]
-    private Color unSelectableColour;
-    [SerializeField]
-    private Color selectableColour;
+    private GameObject bulldozeSelector;
+
+    private GameObject selector;
     
     private TileRotation tileRotation = TileRotation.Zero;
 
@@ -58,16 +66,12 @@ public class PlacementManager : MonoBehaviour {
 
     public void Initialize(LevelEditor _levelEditor) {
         levelEditor = _levelEditor;
-        dropdown.gameObject.SetActive(false);
 
         CameraMovement.CursorLocked += ToggleChecking;
+        InventoryItem.ItemSelected += ChangeTileType;
     }
 
     public void OnUpdate() {
-
-        if(Input.GetKeyDown(KeyCode.R)) {
-            SetTileRotation();
-        }
 
         HandleShortcuts();
 
@@ -75,17 +79,9 @@ public class PlacementManager : MonoBehaviour {
 
             CheckForTile();
 
-            if(CheckPossiblePlacement()) {
+            if(CurrentPlacingType == PlacingType.PlacingTiles || CurrentPlacingType == PlacingType.Bulldozing) {
                 if(Input.GetMouseButtonDown(0)) {
-                    if(CurrentPlacingType == PlacingType.Tiles) {
-                        PlaceTile();
-                    }
-                    else if(CurrentPlacingType == PlacingType.SwitchState) {
-                        SetSwitchState();
-                    }
-                    else if(CurrentPlacingType == PlacingType.SwitchInput) {
-                        SetSwitchInputType();
-                    }
+                    PlaceTile();
                 }
             }
 
@@ -93,93 +89,48 @@ public class PlacementManager : MonoBehaviour {
 
     }
 
-    public void OnDropdownValueChanged() {
-        dropdownValue = dropdown.value;
-    }
+    public void ChangeTileType(int _tileType) {
+        if(CurrentPlacingType == PlacingType.Bulldozing) {
+            bulldozeToggle.isOn = !bulldozeToggle.isOn;
+        }
 
-    public void ChangePlacingType(int _type) {
-        if(CurrentPlacingType == (PlacingType)_type) {
+        if(tileType == (TileType)_tileType) {
             CurrentPlacingType = PlacingType.None;
         }
         else {
-            CurrentPlacingType = (PlacingType)_type;
+            tileType = (TileType)_tileType;
+            CurrentPlacingType = PlacingType.PlacingTiles;
         }
     }
 
-    private void HandlePlacingTypeChange() {
-
-        switch(CurrentPlacingType) {
-
-            case PlacingType.Tiles:
-                IsChecking = true;
-                ChangeDropdownContents(typeof(TileType));
-                dropdown.gameObject.SetActive(true);
-                break;
-
-            case PlacingType.SwitchState:
-                IsChecking = true;
-                ChangeDropdownContents(typeof(SwitchState));
-                dropdown.gameObject.SetActive(true);
-                break;
-
-            case PlacingType.SwitchInput:
-                IsChecking = true;
-                ChangeDropdownContents(typeof(SwitchInputType));
-                dropdown.gameObject.SetActive(true);
-                break;
-
-            default:
-                IsChecking = false;
-                dropdown.gameObject.SetActive(false);
-                break;
-
+    public void ToggleBulldozing() {
+        if(CurrentPlacingType == PlacingType.Bulldozing) {
+            CurrentPlacingType = PlacingType.None;
         }
-    }
-
-    private void ChangeDropdownContents(System.Type _enumType) {
-
-        int startIndex = 0;
-        if(_enumType == typeof(SwitchState) || _enumType == typeof(SwitchInputType)) {
-            startIndex = 1;
+        else {
+            CurrentPlacingType = PlacingType.Bulldozing;
+            tileRotation = TileRotation.Zero;
+            tileType = TileType.None;
         }
-
-        dropdown.ClearOptions();
-
-        List<TMP_Dropdown.OptionData> dropdownOptions = new List<TMP_Dropdown.OptionData>();
-
-        for(int i = startIndex; i < System.Enum.GetNames(_enumType).Length; i++) {
-            string dropdownName = i + " - " + System.Enum.GetNames(_enumType)[i].Replace("_", " ");
-            dropdownOptions.Add(new TMP_Dropdown.OptionData(dropdownName));
-        }
-
-        dropdown.AddOptions(dropdownOptions);
-
     }
 
     private void ToggleChecking(bool _value) {
         IsChecking = !_value;
-        if(CurrentPlacingType == PlacingType.None) {
-            IsChecking = false;
-        }
         hoveredTile = null;
     }
 
     private void HandleShortcuts() {
 
-        int tileMax = dropdown.options.Count;
-
-        int startIndex = 0;
-        if(CurrentPlacingType != PlacingType.Tiles) {
-            startIndex = 1;
-        }
-        
-        if(tileMax > 10) {
-            tileMax = 10;
+        if(CurrentPlacingType == PlacingType.PlacingTiles && Input.GetKeyDown(KeyCode.R)) {
+            SetTileRotation();
         }
 
-        for(int i = startIndex; i < startIndex + tileMax; i++) {
-            if(Input.GetKeyDown(i.ToString())) {
-                dropdown.value = i - startIndex;
+        if(Input.GetMouseButtonDown(1)) {
+            if(CurrentPlacingType == PlacingType.PlacingTiles) {
+                ChangeTileType((int)tileType);
+            }
+            if(CurrentPlacingType == PlacingType.Bulldozing) {
+                bulldozeToggle.isOn = !bulldozeToggle.isOn;
             }
         }
 
@@ -190,10 +141,8 @@ public class PlacementManager : MonoBehaviour {
     }
 
     private void PlaceTile() {
-
-        TileType type = (TileType)dropdownValue;
         
-        GameObject objectToInstatiate = TileDatabase.Instance.GetTileByType(type);
+        GameObject objectToInstatiate = TileDatabase.Instance.GetTileByType(tileType);
         
         if(hoveredTile != null) {
             levelEditor.tiles.Remove(hoveredTile);
@@ -201,45 +150,21 @@ public class PlacementManager : MonoBehaviour {
             hoveredTile = null;
         }
 
-        if(type != TileType.None) {
+        if(tileType != TileType.None) {
             Vector3 tilePos = tileSelector.transform.position;
             Vector3 tileRot = objectToInstatiate.transform.eulerAngles + new Vector3(0, Tile.GetTileRotation(tileRotation), 0);
 
             Tile tile = Instantiate(objectToInstatiate, tilePos, Quaternion.Euler(tileRot), transform).GetComponent<Tile>();
-            tile.tileType = type;
+            tile.tileType = tileType;
             tile.tileRotation = tileRotation;
 
-            if(type >= TileType.Switch_Left_Right) {
+            if(tileType >= TileType.Switch_Left_Right) {
                 tile.CurrentSwitchState = SwitchState.One;
                 tile.CurrentSwitchInputType = SwitchInputType.Green;
             }
 
             levelEditor.tiles.Add(tile);
         }
-
-    }
-
-    private void SetSwitchState() {
-
-        SwitchState state = (SwitchState)dropdownValue + 1;
-
-        if(hoveredTile == null) {
-            return;
-        }
-
-        hoveredTile.CurrentSwitchState = state;
-
-    }
-
-    private void SetSwitchInputType() {
-
-        SwitchInputType type = (SwitchInputType)dropdownValue + 1;
-
-        if(hoveredTile == null) {
-            return;
-        }
-
-        hoveredTile.CurrentSwitchInputType = type;
 
     }
 
@@ -260,11 +185,13 @@ public class PlacementManager : MonoBehaviour {
 
         if(Physics.Raycast(ray, out hit)) {
 
-            tileSelector.transform.position = new Vector3(
-                Mathf.Round(hit.point.x),
-                0.0f,
-                Mathf.Round(hit.point.z)
-            );
+            if(selector != null) {
+                selector.transform.position = new Vector3(
+                    Mathf.Round(hit.point.x),
+                    0.0f,
+                    Mathf.Round(hit.point.z)
+                );
+            }
 
             if(hit.collider.GetComponent<Tile>() != null) {
                 hoveredTile = hit.collider.GetComponentInParent<Tile>();
@@ -274,20 +201,6 @@ public class PlacementManager : MonoBehaviour {
             }
 
         }
-
-    }
-
-    private bool CheckPossiblePlacement() {
-
-        if(placingType > PlacingType.Tiles) {
-            if(hoveredTile == null || hoveredTile.tileType < TileType.Switch_Left_Right) {
-                tileSelector.GetComponent<MeshRenderer>().material.color = unSelectableColour;
-                return false;
-            }
-        }
-
-        tileSelector.GetComponent<MeshRenderer>().material.color = selectableColour;
-        return true;
 
     }
 
