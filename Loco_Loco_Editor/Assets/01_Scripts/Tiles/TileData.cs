@@ -17,8 +17,8 @@ public class TileData {
     public TileData() {}
     public TileData(Vector3 _pos, TileRotation _rot, TileType _type, SwitchState _switchState, SwitchInputType _inputType) {
 
-        x = Mathf.RoundToInt(_pos.x);
-        z = Mathf.RoundToInt(_pos.z);
+        x = Mathf.FloorToInt(_pos.x);
+        z = Mathf.FloorToInt(_pos.z);
 
         tileRotation = _rot;
         tileType = _type;

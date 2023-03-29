@@ -18,17 +18,27 @@ public class PlacementManager : MonoBehaviour {
             return placingType;
         }
         set {
+            
+            placingType = value;
+
             if(selector != null) {
                 selector.SetActive(false);
             }
-
-            placingType = value;
+            switchEditingSelector.SetActive(false);
 
             if(placingType != PlacingType.SwitchEditing) {
                 switchContextMenu.gameObject.SetActive(false);
             }
 
             if(placingType == PlacingType.PlacingTiles) {
+                if(tileSelector.transform.childCount > 0) {
+                    for(int i = tileSelector.transform.childCount-1; i >= 0; i--) {
+                        Destroy(tileSelector.transform.GetChild(i).gameObject);
+                    }
+                }
+                GameObject preview = Instantiate(TileDatabase.Instance.GetTileByType(tileType), tileSelector.transform.position, tileSelector.transform.rotation, tileSelector.transform);
+                preview.GetComponent<Collider>().enabled = false;
+
                 selector = tileSelector;
                 selector.SetActive(true);
             }
@@ -37,6 +47,7 @@ public class PlacementManager : MonoBehaviour {
                 selector.SetActive(true);
             }
             else if(placingType == PlacingType.SwitchEditing) {
+                switchEditingSelector.SetActive(true);
                 switchContextMenu.gameObject.SetActive(true);
             }
 
@@ -60,13 +71,15 @@ public class PlacementManager : MonoBehaviour {
     private Toggle bulldozeToggle;
 
     [SerializeField]
+    private SwitchContextMenu switchContextMenu;
+
+    [SerializeField]
     private GameObject tileSelector;
     [SerializeField]
     private GameObject bulldozeSelector;
-    private GameObject selector;
-
     [SerializeField]
-    private SwitchContextMenu switchContextMenu;
+    private GameObject switchEditingSelector;
+    private GameObject selector;
     
     private TileRotation tileRotation = TileRotation.Zero;
 
@@ -93,10 +106,13 @@ public class PlacementManager : MonoBehaviour {
                 if(CurrentPlacingType == PlacingType.PlacingTiles || CurrentPlacingType == PlacingType.Bulldozing) {
                     PlaceTile();
                 }
-                else if((CurrentPlacingType == PlacingType.None || CurrentPlacingType == PlacingType.SwitchEditing) && hoveredTile != null) {
-                    if(hoveredTile.tileType >= TileType.Switch_Left_Right) {
-                        switchContextMenu.Initialize((SwitchTile)hoveredTile);
-                        CurrentPlacingType = PlacingType.SwitchEditing;
+                else if(CurrentPlacingType == PlacingType.None || CurrentPlacingType == PlacingType.SwitchEditing) {
+                    if(hoveredTile != null) {
+                        if(hoveredTile.tileType >= TileType.Switch_Left_Right) {
+                            switchEditingSelector.transform.position = hoveredTile.transform.position;
+                            switchContextMenu.Initialize((SwitchTile)hoveredTile);
+                            CurrentPlacingType = PlacingType.SwitchEditing;
+                        }
                     }
                     else {
                         CurrentPlacingType = PlacingType.None;
@@ -114,6 +130,7 @@ public class PlacementManager : MonoBehaviour {
         }
 
         if(tileType == (TileType)_tileType) {
+            tileType = TileType.None;
             CurrentPlacingType = PlacingType.None;
         }
         else {
@@ -140,8 +157,15 @@ public class PlacementManager : MonoBehaviour {
 
     private void HandleShortcuts() {
 
-        if(CurrentPlacingType == PlacingType.PlacingTiles && Input.GetKeyDown(KeyCode.R)) {
-            SetTileRotation();
+        if(CurrentPlacingType == PlacingType.PlacingTiles) {
+            if(Input.GetKeyDown(KeyCode.R)) {
+                if(Input.GetKey(KeyCode.LeftShift)) {
+                    SetTileRotation(-1);
+                }
+                else {
+                    SetTileRotation(1);
+                }
+            }
         }
 
         if(Input.GetMouseButtonDown(1)) {
@@ -150,6 +174,9 @@ public class PlacementManager : MonoBehaviour {
             }
             if(CurrentPlacingType == PlacingType.Bulldozing) {
                 bulldozeToggle.isOn = !bulldozeToggle.isOn;
+            }
+            if(CurrentPlacingType == PlacingType.SwitchEditing) {
+                CurrentPlacingType = PlacingType.None;
             }
         }
 
@@ -187,12 +214,22 @@ public class PlacementManager : MonoBehaviour {
 
     }
 
-    private void SetTileRotation() {
-        if((int)tileRotation >= System.Enum.GetValues(typeof(TileRotation)).Length - 1) {
-            tileRotation = (TileRotation)0;
+    private void SetTileRotation(int _dir) {
+        if(_dir > 0) {
+            if((int)tileRotation >= System.Enum.GetValues(typeof(TileRotation)).Length - 1) {
+                tileRotation = (TileRotation)0;
+            }
+            else {
+                tileRotation++;
+            }
         }
-        else {
-            tileRotation++;
+        else if(_dir < 0) {
+            if((int)tileRotation <= 0) {
+                tileRotation = (TileRotation)(System.Enum.GetValues(typeof(TileRotation)).Length - 1);
+            }
+            else {
+                tileRotation--;
+            }
         }
         tileSelector.transform.eulerAngles = new Vector3(0, Tile.GetTileRotation(tileRotation), 0);
     }

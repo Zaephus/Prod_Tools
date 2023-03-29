@@ -22,10 +22,30 @@ public class LevelEditor : MonoBehaviour {
 
     public void SaveLevel() {
 
+        if(tiles == null || tiles.Count < 1) {
+            return;
+        }
+
+        Tile originTile = tiles[0];
+        Vector3 size = originTile.transform.position;
+
+        foreach(Tile t in tiles) {
+            if(t.transform.position.x <= originTile.transform.position.x && t.transform.position.z <= originTile.transform.position.z) {
+                originTile = t;
+            }
+            if(t.transform.position.x >= size.x && t.transform.position.z >= size.z) {
+                size = t.transform.position;
+            }
+        }
+
+        size -= originTile.transform.position;
+
         TileData[] tileDatas = new TileData[tiles.Count];
         for(int i = 0; i < tileDatas.Length; i++) {
             Tile t = tiles[i];
-            tileDatas[i] = new TileData(t.transform.position, t.tileRotation, t.tileType, t.CurrentSwitchState, t.CurrentSwitchInputType);
+            Vector3 tilePos = t.transform.position - originTile.transform.position - size/2;
+            
+            tileDatas[i] = new TileData(tilePos, t.tileRotation, t.tileType, t.CurrentSwitchState, t.CurrentSwitchInputType);
         }
 
         DataManager.SaveLevel(tileDatas);

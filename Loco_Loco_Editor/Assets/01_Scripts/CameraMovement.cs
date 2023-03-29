@@ -46,7 +46,8 @@ public class CameraMovement : MonoBehaviour {
         if(Input.GetMouseButton(2)) {
             HideAndLockCursor();
             Vector3 moveDir = mouseDelta.x * cameraRotator.transform.right + mouseDelta.z * cameraRotator.transform.forward;
-            transform.position += moveDir * moveSpeed * Time.deltaTime;
+            float moveModifier = mainCamera.orthographicSize * (0.6f + 0.4f * (1/(mainCamera.orthographicSize/2)));
+            transform.position += moveDir * moveSpeed * moveModifier * Time.deltaTime;
         }
         if(Input.GetMouseButtonUp(2)) {
             ShowAndUnlockCursor();
@@ -69,6 +70,13 @@ public class CameraMovement : MonoBehaviour {
             if(scrollDelta > 0.0f && mainCamera.orthographicSize >= 2) {
                 mainCamera.orthographicSize -= zoomSpeed * Time.deltaTime;
             }
+        }
+
+        if(mainCamera.orthographicSize > 20) {
+            mainCamera.orthographicSize = 20;
+        }
+        if(mainCamera.orthographicSize < 2) {
+            mainCamera.orthographicSize = 2;
         }
 
     }
