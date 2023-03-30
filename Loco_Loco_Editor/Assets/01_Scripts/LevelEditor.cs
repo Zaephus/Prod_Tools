@@ -104,7 +104,7 @@ public class LevelEditor : MonoBehaviour {
 
         tiles = levelGenerator.Generate(tileDatas);
 
-        CameraMovement.CameraReset.Invoke();
+        CameraMovement.CameraReset?.Invoke();
 
         hasChanges = false;
 

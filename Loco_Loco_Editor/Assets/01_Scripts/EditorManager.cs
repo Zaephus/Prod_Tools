@@ -18,26 +18,51 @@ public class EditorManager : MonoBehaviour {
     }
     private static EditorState editorState;
 
+    private static bool hasChanges;
+
+    [SerializeField]
+    private GameObject mainMenu;
     [SerializeField]
     private LevelEditor levelEditor;
 
     private void Start() {
         StateChanged += HandleStateChanges;
-        CurrentEditorState = EditorState.Editor;
-
-        levelEditor.OnStart();
+        CurrentEditorState = EditorState.MainMenu;
     }
 
     private void Update() {
-        levelEditor.OnUpdate();
+        if(CurrentEditorState == EditorState.Editor) {
+            levelEditor.OnUpdate();
+            hasChanges = levelEditor.hasChanges;
+        }
+    }
+    
+    public void StartNewLevel() {
+        CurrentEditorState = EditorState.Editor;
     }
 
-    private static void HandleStateChanges() {
+    public void StartLoadLevel() {
+        CurrentEditorState = EditorState.Editor;
+        levelEditor.TryLoadLevel();
+    }
 
+    private void HandleStateChanges() {
+        switch(CurrentEditorState) {
+            case EditorState.MainMenu:
+                levelEditor.gameObject.SetActive(false);
+                mainMenu.SetActive(true);
+                break;
+
+            case EditorState.Editor:
+                mainMenu.SetActive(false);
+                levelEditor.gameObject.SetActive(true);
+                levelEditor.OnStart();
+                break;
+        }
     }
 
     private static bool WantsToQuit() {
-        if(CurrentEditorState == EditorState.Editor) {
+        if(CurrentEditorState == EditorState.Editor && hasChanges) {
             TryQuit?.Invoke();
             return false;
         }
