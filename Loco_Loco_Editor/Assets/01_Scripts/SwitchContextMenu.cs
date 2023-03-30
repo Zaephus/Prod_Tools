@@ -23,6 +23,12 @@ public class SwitchContextMenu : MonoBehaviour {
 
     private SwitchTile switchTile;
 
+    private LevelEditor levelEditor;
+
+    public void OnStart(LevelEditor _levelEditor) {
+        levelEditor = _levelEditor;
+    }
+
     public void Initialize(SwitchTile _switchTile) {
         switchTile = _switchTile;
 
@@ -35,12 +41,14 @@ public class SwitchContextMenu : MonoBehaviour {
         SwitchState state = (SwitchState)stateSlider.value;
         stateText.text = "Switch State: " + state.ToString();
         switchTile.CurrentSwitchState = state;
+        levelEditor.hasChanges = true;
     }
 
     public void OnInputTypeSliderValueChanged() {
         SwitchInputType inputType = (SwitchInputType)inputTypeSlider.value;
         inputTypeText.text = "Input Type: " + inputType.ToString();
         switchTile.CurrentSwitchInputType = inputType;
+        levelEditor.hasChanges = true;
     }
 
 }

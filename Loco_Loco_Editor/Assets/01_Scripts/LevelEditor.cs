@@ -6,18 +6,48 @@ public class LevelEditor : MonoBehaviour {
 
     public List<Tile> tiles = new List<Tile>();
 
+    [HideInInspector]
+    public bool hasChanges;
+
+    [SerializeField]
+    private GameObject quitWarningPanel;
+    [SerializeField]
+    private GameObject newLevelWarningPanel;
+    [SerializeField]
+    private GameObject loadWarningPanel;
+
     private PlacementManager placementManager;
     private LevelGenerator levelGenerator;
 
-    private void Start() {
+    public void OnStart() {
+
+        hasChanges = false;
+
         placementManager = GetComponent<PlacementManager>();
         placementManager.Initialize(this);
 
         levelGenerator = GetComponent<LevelGenerator>();
+
+        EditorManager.TryQuit += TryQuit;
+
     }
 
-    public void Update() {
+    public void OnUpdate() {
         placementManager.OnUpdate();
+    }
+
+    public void TryNewLevel() {
+        if(hasChanges) {
+            newLevelWarningPanel.SetActive(true);
+        }
+        else {
+            NewLevel();
+        }
+    }
+
+    public void NewLevel() {
+        ResetLevel();
+        hasChanges = false;
     }
 
     public void SaveLevel() {
@@ -50,6 +80,17 @@ public class LevelEditor : MonoBehaviour {
 
         DataManager.SaveLevel(tileDatas);
 
+        hasChanges = false;
+
+    }
+
+    public void TryLoadLevel() {
+        if(hasChanges) {
+            loadWarningPanel.SetActive(true);
+        }
+        else {
+            LoadLevel();
+        }
     }
 
     public void LoadLevel() {
@@ -59,15 +100,36 @@ public class LevelEditor : MonoBehaviour {
             return;
         }
 
-        for(int i = tiles.Count-1; i >= 0; i--) {
-            Destroy(tiles[i].gameObject);
-        }
-        tiles.Clear();
+        ResetLevel();
 
         tiles = levelGenerator.Generate(tileDatas);
 
         CameraMovement.CameraReset.Invoke();
 
+        hasChanges = false;
+
+    }
+
+    public void TryQuit() {
+        Debug.Log("Trying to Quit");
+        if(hasChanges) {
+            quitWarningPanel.SetActive(true);
+        }
+        else {
+            Quit();
+        }
+    }
+
+    public void Quit() {
+        EditorManager.CurrentEditorState = EditorState.Quitting;
+        Application.Quit();
+    }
+
+    private void ResetLevel() {
+        for(int i = tiles.Count-1; i >= 0; i--) {
+            Destroy(tiles[i].gameObject);
+        }
+        tiles.Clear();
     }
 
 }

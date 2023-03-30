@@ -87,8 +87,12 @@ public class PlacementManager : MonoBehaviour {
 
     private LevelEditor levelEditor;
 
+    private Tile startTile;
+
     public void Initialize(LevelEditor _levelEditor) {
         levelEditor = _levelEditor;
+
+        switchContextMenu.OnStart(_levelEditor);
 
         CameraMovement.CursorLocked += ToggleChecking;
         InventoryItem.ItemSelected += ChangeTileType;
@@ -204,6 +208,14 @@ public class PlacementManager : MonoBehaviour {
             tile.tileType = tileType;
             tile.tileRotation = tileRotation;
 
+            if(tileType == TileType.Start) {
+                if(startTile != null) {
+                    Destroy(startTile.gameObject);
+                    levelEditor.tiles.Remove(startTile);
+                }
+                startTile = tile;
+            }
+
             if(tileType >= TileType.Switch_Left_Right) {
                 tile.CurrentSwitchState = SwitchState.One;
                 tile.CurrentSwitchInputType = SwitchInputType.Green;
@@ -211,6 +223,8 @@ public class PlacementManager : MonoBehaviour {
 
             levelEditor.tiles.Add(tile);
         }
+
+        levelEditor.hasChanges = true;
 
     }
 

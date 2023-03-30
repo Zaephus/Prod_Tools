@@ -1,7 +1,8 @@
 
 public enum EditorState {
     MainMenu = 0,
-    Editor = 1
+    Editor = 1,
+    Quitting = 2
 }
 
 public enum TileType {

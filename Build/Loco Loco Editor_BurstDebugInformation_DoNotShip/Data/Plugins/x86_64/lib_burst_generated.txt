@@ -1,4 +1,4 @@
-Library: C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+Library: A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco_Loco_Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --platform=Windows
 --backend=burst-llvm-14
 --target=AVX2
@@ -99,7 +99,6 @@ Library: C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco 
 --compilation-defines=NET_STANDARD_2_1
 --compilation-defines=NETSTANDARD
 --compilation-defines=NETSTANDARD2_1
---compilation-defines=UNITY_PRO_LICENSE
 --compilation-defines=ENABLE_CUSTOM_RENDER_TEXTURE
 --compilation-defines=ENABLE_DIRECTOR
 --compilation-defines=ENABLE_LOCALIZATION
@@ -129,8 +128,8 @@ Library: C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco 
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="Loco Loco Editor_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco Editor\Temp\Burst
---output=C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco_Loco_Editor\Temp\Burst
+--output=A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco_Loco_Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
@@ -247,7 +246,6 @@ Library: C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco 
 --compilation-defines=NET_STANDARD_2_1
 --compilation-defines=NETSTANDARD
 --compilation-defines=NETSTANDARD2_1
---compilation-defines=UNITY_PRO_LICENSE
 --compilation-defines=ENABLE_CUSTOM_RENDER_TEXTURE
 --compilation-defines=ENABLE_DIRECTOR
 --compilation-defines=ENABLE_LOCALIZATION
@@ -277,8 +275,8 @@ Library: C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco 
 --compilation-defines=TIMELINE_FRAMEACCURATE
 --linker-options=PdbAltPath="Loco Loco Editor_Data/Plugins/x86_64/lib_burst_generated.pdb"
 --generate-link-xml=Temp\burst.link.xml
---temp-folder=C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco Editor\Temp\Burst
---output=C:\Users\marcc\Documents\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco Loco Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
+--temp-folder=A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco_Loco_Editor\Temp\Burst
+--output=A:\HKU\J2.3\KERN_PROD_TOOLS\Prod_Tools\Loco_Loco_Editor\Temp\StagingArea\Data\Plugins\x86_64\lib_burst_generated
 --pdb-search-paths=Temp/ManagedSymbols/
 --pdb-search-paths=Temp/ManagedSymbols/
 
