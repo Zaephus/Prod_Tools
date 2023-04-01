@@ -1,7 +1,8 @@
 @startuml
 class EditorManager {
-    Start() : void
-    Update() : void
+    + StartNewLevel() : void
+    + StartLoadLevel() : void
 }
 MonoBehaviour <|-- EditorManager
+EditorManager --> "CurrentEditorState" EditorState
 @enduml

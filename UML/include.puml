@@ -1,27 +1,22 @@
 @startuml
-class SwitchTile {
+class PlacementManager {
+    + Initialize(_levelEditor:LevelEditor) : void
+    + OnUpdate() : void
+    + ChangeTileType(_tileType:int) : void
+    + ToggleBulldozing() : void
 }
-Tile <|-- SwitchTile
-class DataManager <<static>> {
-    + {static} SaveLevel(_tileDatas:TileData[]) : void
-    + {static} LoadLevel() : TileData[]
+enum PlacingType {
+    None,
+    PlacingTiles,
+    Bulldozing,
+    SwitchEditing,
 }
-class EditorManager {
-    Start() : void
-    Update() : void
-}
-MonoBehaviour <|-- EditorManager
-class TileDatabase {
-    + GetTileByType(_type:TileType) : GameObject
-    + GetSwitchStateIndicator(_state:SwitchState, _type:TileType) : GameObject
-    + GetInputIndicator(_inputType:SwitchInputType) : GameObject
-}
-class "ScriptableSingleton`1"<T> {
-}
-"ScriptableSingleton`1" "<TileDatabase>" <|-- TileDatabase
+MonoBehaviour <|-- PlacementManager
+PlacementManager +-- PlacingType
 enum EditorState {
     MainMenu= 0,
     Editor= 1,
+    Quitting= 2,
 }
 enum TileType {
     None= 0,
@@ -52,27 +47,53 @@ enum SwitchInputType {
     Blue= 3,
     Red= 4,
 }
-class PlacementManager {
-    + Initialize(_levelEditor:LevelEditor) : void
-    + OnUpdate() : void
-    + OnDropdownValueChanged() : void
-    + ChangePlacingType(_type:int) : void
+class EditorManager {
+    + StartNewLevel() : void
+    + StartLoadLevel() : void
 }
-enum PlacingType {
-    None= 0,
-    Tiles= 1,
-    SwitchState= 2,
-    SwitchInput= 3,
+MonoBehaviour <|-- EditorManager
+EditorManager --> "CurrentEditorState" EditorState
+class SwitchContextMenu {
+    + OnStart(_levelEditor:LevelEditor) : void
+    + Initialize(_switchTile:SwitchTile) : void
+    + OnStateSliderValueChanged() : void
+    + OnInputTypeSliderValueChanged() : void
 }
-MonoBehaviour <|-- PlacementManager
-PlacementManager +-- PlacingType
+MonoBehaviour <|-- SwitchContextMenu
 class CameraMovement {
 }
 MonoBehaviour <|-- CameraMovement
+class DataManager <<static>> {
+    + {static} SaveLevel(_tileDatas:TileData[]) : void
+    + {static} LoadLevel() : TileData[]
+}
+class LevelEditor {
+    + hasChanges : bool
+    + OnStart() : void
+    + OnUpdate() : void
+    + TryNewLevel() : void
+    + NewLevel() : void
+    + SaveLevel() : void
+    + TryLoadLevel() : void
+    + LoadLevel() : void
+    + TryQuit() : void
+    + Quit() : void
+}
+class "List`1"<T> {
+}
+MonoBehaviour <|-- LevelEditor
+LevelEditor o-> "tiles<Tile>" "List`1"
 class LevelGenerator {
     + Generate(_tileDatas:TileData[]) : List<Tile>
 }
 MonoBehaviour <|-- LevelGenerator
+class "ScriptableSingleton`1"<T> {
+    + {static} Instance : T <<get>>
+}
+ScriptableObject <|-- "ScriptableSingleton`1"
+class SwitchTile {
+}
+Tile <|-- SwitchTile
 class TileData {
     + x : int
     + z : int
@@ -83,19 +104,6 @@ TileData --> "tileType" TileType
 TileData --> "tileRotation" TileRotation
 TileData --> "switchState" SwitchState
 TileData --> "switchInputType" SwitchInputType
-class LevelEditor {
-    + Update() : void
-    + SaveLevel() : void
-    + LoadLevel() : void
-}
-class "List`1"<T> {
-}
-MonoBehaviour <|-- LevelEditor
-LevelEditor o-> "tiles<Tile>" "List`1"
-class "ScriptableSingleton`1"<T> {
-    + {static} Instance : T <<get>>
-}
-ScriptableObject <|-- "ScriptableSingleton`1"
 class Tile {
     + {static} GetTileRotation(_tileRotation:TileRotation) : float
 }
@@ -104,6 +112,15 @@ Tile --> "tileType" TileType
 Tile --> "tileRotation" TileRotation
 Tile --> "CurrentSwitchState" SwitchState
 Tile --> "CurrentSwitchInputType" SwitchInputType
+class TileDatabase {
+    + GetTileByType(_type:TileType) : GameObject
+    + GetAllTiles() : GameObject[]
+    + GetSwitchStateIndicator(_state:SwitchState, _type:TileType) : GameObject
+    + GetInputIndicator(_inputType:SwitchInputType) : GameObject
+}
+class "ScriptableSingleton`1"<T> {
+}
+"ScriptableSingleton`1" "<TileDatabase>" <|-- TileDatabase
 class OutlineFeature {
     + <<override>> Create() : void
     + <<override>> AddRenderPasses(renderer:ScriptableRenderer, renderingData:RenderingData) : void
@@ -147,4 +164,16 @@ DepthNormalsFeature --> "depthNormalsMaterial" Material
 DepthNormalsFeature +-- DepthNormalsPass
 ScriptableRenderPass <|-- DepthNormalsPass
 DepthNormalsPass o-> "m_ShaderTagId" ShaderTagId
+class InventoryItem {
+    + tileType : int
+    + Select() : void
+}
+MonoBehaviour <|-- InventoryItem
+class InventoryManager {
+}
+MonoBehaviour <|-- InventoryManager
+class PreviewGenerator {
+    + GeneratePreviews() : RenderTexture[]
+}
+MonoBehaviour <|-- PreviewGenerator
 @enduml

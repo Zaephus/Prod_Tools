@@ -2,6 +2,7 @@
 enum EditorState {
     MainMenu= 0,
     Editor= 1,
+    Quitting= 2,
 }
 enum TileType {
     None= 0,

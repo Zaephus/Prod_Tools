@@ -1,8 +1,15 @@
 @startuml
 class LevelEditor {
-    + Update() : void
+    + hasChanges : bool
+    + OnStart() : void
+    + OnUpdate() : void
+    + TryNewLevel() : void
+    + NewLevel() : void
     + SaveLevel() : void
+    + TryLoadLevel() : void
     + LoadLevel() : void
+    + TryQuit() : void
+    + Quit() : void
 }
 class "List`1"<T> {
 }

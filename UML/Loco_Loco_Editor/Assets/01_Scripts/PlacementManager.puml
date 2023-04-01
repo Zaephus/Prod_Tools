@@ -2,14 +2,14 @@
 class PlacementManager {
     + Initialize(_levelEditor:LevelEditor) : void
     + OnUpdate() : void
-    + OnDropdownValueChanged() : void
-    + ChangePlacingType(_type:int) : void
+    + ChangeTileType(_tileType:int) : void
+    + ToggleBulldozing() : void
 }
 enum PlacingType {
-    None= 0,
-    Tiles= 1,
-    SwitchState= 2,
-    SwitchInput= 3,
+    None,
+    PlacingTiles,
+    Bulldozing,
+    SwitchEditing,
 }
 MonoBehaviour <|-- PlacementManager
 PlacementManager +-- PlacingType

@@ -1,0 +1,9 @@
+@startuml
+class SwitchContextMenu {
+    + OnStart(_levelEditor:LevelEditor) : void
+    + Initialize(_switchTile:SwitchTile) : void
+    + OnStateSliderValueChanged() : void
+    + OnInputTypeSliderValueChanged() : void
+}
+MonoBehaviour <|-- SwitchContextMenu
+@enduml

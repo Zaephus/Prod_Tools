@@ -1,0 +1,7 @@
+@startuml
+class InventoryItem {
+    + tileType : int
+    + Select() : void
+}
+MonoBehaviour <|-- InventoryItem
+@enduml

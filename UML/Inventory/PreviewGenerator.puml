@@ -1,0 +1,6 @@
+@startuml
+class PreviewGenerator {
+    + GeneratePreviews() : RenderTexture[]
+}
+MonoBehaviour <|-- PreviewGenerator
+@enduml
