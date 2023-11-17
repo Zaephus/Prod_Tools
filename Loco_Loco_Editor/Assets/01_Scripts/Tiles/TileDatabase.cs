@@ -24,6 +24,10 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
     private GameObject switchStraightRightTrack;
     [SerializeField]
     private GameObject trainStation;
+    [SerializeField]
+    private GameObject water;
+    [SerializeField]
+    private GameObject bridge;
 
     [Header("Switch State Indicators")]
     [SerializeField]
@@ -65,6 +69,12 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
             case TileType.Train_Station:
                 return trainStation;
 
+            case TileType.Water:
+                return water;
+
+            case TileType.Bridge:
+                return bridge;
+
             case TileType.Switch_Left_Right:
                 return switchLeftRightTrack;
 
@@ -89,6 +99,8 @@ public class TileDatabase : ScriptableSingleton<TileDatabase> {
             endTrack,
             tunnelTrack,
             trainStation,
+            water,
+            bridge,
             switchLeftRightTrack,
             switchStraightLeftTrack,
             switchStraightRightTrack

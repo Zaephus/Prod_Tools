@@ -13,9 +13,11 @@ public enum TileType {
     End = 4,
     Tunnel = 5,
     Train_Station = 6,
-    Switch_Left_Right = 7,
-    Switch_Straight_Left = 8,
-    Switch_Straight_Right = 9
+    Water = 7,
+    Bridge = 8,
+    Switch_Left_Right = 9,
+    Switch_Straight_Left = 10,
+    Switch_Straight_Right = 11
 }
 
 public enum TileRotation {

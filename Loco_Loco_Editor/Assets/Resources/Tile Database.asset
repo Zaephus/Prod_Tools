@@ -30,6 +30,8 @@ MonoBehaviour:
     type: 3}
   trainStation: {fileID: 8905248881608983980, guid: 4a5a51bb03ca1e84baa7fee180445a50,
     type: 3}
+  water: {fileID: 6893231222051833274, guid: a150302f6375bd14081b83a163eac7fd, type: 3}
+  bridge: {fileID: 1186561300808516817, guid: 895f51eb0c3e64b4f9bcccf72f1fd5b8, type: 3}
   straightIndicator: {fileID: 5145097128861479341, guid: 15e37b5551cc2ed45b83313ad1a574a6,
     type: 3}
   rightIndicator: {fileID: 5119341236170570959, guid: c0f0971635627b7459659809052981b9,
